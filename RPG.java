@@ -11,6 +11,7 @@ public class RPG {
     private String cName;
     private String cClass;
     private String cRace;
+    private String room;
 
     String classes[] = {"Fill", "Druid", "Barbarian", "Wizard", "Fighter"};
     String races[] = {"Fill", "Elf", "Human", "Dwarf", "Half-Elf"};
@@ -23,6 +24,7 @@ public class RPG {
         this.cName = "";
         this.cClass = "";
         this.cRace = "";
+        this.room = "";
     }
 
     public void characterCreator(String name, int chooseClass, int race){
@@ -120,31 +122,105 @@ public class RPG {
         characterCreator(inputName, inputClass, inputRace);
     }
 
-    public void startGame(Scanner s) {
+    public void bedroom(Scanner s) {
         System.out.println("You wake up in your bed in the town of MountainTop. It is a village situated a bit high in the mountains, and the season is currently winter. Your home is a two story cabin");
-        int action = 0;
-        while (action == 0){
-            System.out.print("You see: A Mirror (1), A Cabinet (2), and A Door (3). Please select one to interact with: ");
-            if (!s.hasNextInt()){
-                System.out.println("Please choose a number. (Note: No Decimals)");
-                String holding = s.next();
-            }
-            else {
-                int tempInt = s.nextInt();
-                if (tempInt < 1 || tempInt > 3){
-                    System.out.println("I am sorry, " + tempInt + " is not an option. Please choose something within the predefined boundaries.");
+        this.room = "Bedroom";
+        boolean clothesOn = false;
+        while (this.room.equals("Bedroom")){
+            int action = 0;
+            while (action == 0){
+                System.out.print("You see: A Mirror (1), A Cabinet (2), and A Door (3). Please select one to interact with: ");
+                if (!s.hasNextInt()){
+                    System.out.println("Please choose a number. (Note: No Decimals)");
+                    String holding = s.next();
                 }
                 else {
-                    action = tempInt;
+                    int tempInt = s.nextInt();
+                    if (tempInt < 1 || tempInt > 3){
+                        System.out.println("I am sorry, " + tempInt + " is not an option. Please choose something within the predefined boundaries.");
+                    }
+                    else {
+                        action = tempInt;
+                    }
+                }
+            }
+
+            if (action == 1){
+                System.out.println("Its you!");
+            }
+            else if (action == 2 && clothesOn == false){
+                System.out.println("You see that your cabinet is full of clothes, and you are currently wearing none.");
+                String choice = "";
+                while (choice.equals("")){
+                    System.out.print("Would you like to put on some clothes? (Y or N): ");
+                    if (s.hasNextInt()){
+                        System.out.println("Please enter Y or N.");
+                    }
+                    else if (s.hasNext()){
+                        String temp = s.next().toLowerCase();
+                        if (!temp.equals("y") && !temp.equals("n")){
+                            System.out.println("Please enter Y or N");
+                        }
+                        else {
+                            choice = temp;
+                        }
+                    }
+
+                }
+                if (choice.equals("y") && clothesOn == false) {
+                    System.out.println("You put on some nice, warm winter clothes. They are made out of wool and are extremely comfy.");
+                    clothesOn = true;
+                }
+                else if (choice.equals("n") && clothesOn == false) {
+                    System.out.println("I suppose putting on no clothes is a bold fashion statement...");
+                }
+
+            }
+            else if (action == 2 && clothesOn == true) {
+                System.out.println("...you already have clothes on.");
+            }
+            else if (action == 3) {
+                String choice = "";
+                while (choice.equals("")){
+                    System.out.print("Would you like to go to the next room? (Y or N): ");
+                    if (s.hasNextInt()){
+                        System.out.println("Please enter Y or N");
+                    }
+                    else if (s.hasNext()) {
+                        String temp = s.next().toLowerCase();
+                        if (!temp.equals("y") && !temp.equals("n")){
+                            System.out.println("Please enter Y or N");
+                        }
+                        else {
+                            choice = temp;
+                        }
+                    }
+                    else {
+                        
+                    }
+                }
+
+                if (choice.equals("y")){
+                    if (clothesOn == true){
+                        System.out.println("You decide to step out into your hallway...");
+                    } else {
+                        System.out.println("So uhhh.... you decide to step out into your hallway... wearing no clothes...");
+                    }
+
+                    this.room = "UpperHallway";
+                }
+                else {
+                    System.out.println("You decide to explore your room some more.");
                 }
             }
         }
+
     }
 
     public static void main(String[] args){
         Scanner s = new Scanner(System.in);
         RPG rpg = new RPG();
         rpg.startCharacter(s);
-        rpg.startGame(s);
+        rpg.bedroom(s);
     }
 }
