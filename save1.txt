@@ -1,0 +1,8 @@
+room=UpperHallway
+xCord=0
+yCord=0
+zCord=0
+cName=Luke
+cClass=Wizard
+cRace=Elf
+hasClothes=true
